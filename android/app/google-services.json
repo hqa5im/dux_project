@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "840276084010",
+    "project_id": "dux-demo-71a25",
+    "storage_bucket": "dux-demo-71a25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840276084010:android:051663700e47ed0b40ca53",
+        "android_client_info": {
+          "package_name": "com.example.dux_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840276084010-dtkbnqmk65gs52ultapn7nnmitcpnni7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXfDdI-owIaeb7smxPGRcEtxO95NvTIbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840276084010-dtkbnqmk65gs52ultapn7nnmitcpnni7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "840276084010-v3jlc49fpinev052gst2p0qproj6nvrb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.duxProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
