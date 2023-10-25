@@ -196,33 +196,30 @@ class _WelcomeState extends State<Welcome> {
   }
 }
 
-
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
-  final email = _emailController.text.trim();
-  final password = _passwordController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-  try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    // Navigate to the new page upon successful sign-in.
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => NewPage()),
-    );
-
-  } catch (e) {
-    // Handle any errors here, such as displaying an error message.
-    print('Error signing in: $e');
+      // Navigate to the new page upon successful sign-in.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DashBoard()),
+      );
+    } catch (e) {
+      // Handle any errors here, such as displaying an error message.
+      print('Error signing in: $e');
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +317,6 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
                     const SizedBox(height: 30),
-                    
                     Container(
                       width: 357,
                       padding: const EdgeInsets.symmetric(
@@ -347,22 +343,22 @@ class LoginPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextButton(
-                            onPressed: () => _signInWithEmailAndPassword(context), // Call the sign-in function on button press
+                            onPressed: () => _signInWithEmailAndPassword(
+                                context), // Call the sign-in function on button press
                             child: Text(
                               'Sign in',
                               style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 1,
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                height: 1,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -420,7 +416,6 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-
 class CreateAccountPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -430,16 +425,17 @@ class CreateAccountPage extends StatelessWidget {
     final password = _passwordController.text.trim();
 
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-    // Navigate to the new page upon successful sign-in.
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+      // Navigate to the new page upon successful sign-in.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
 
       // You can add further logic here, e.g., navigate to another screen upon successful registration.
     } catch (e) {
@@ -570,15 +566,16 @@ class CreateAccountPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextButton(
-                            onPressed: () => _registerWithEmailAndPassword(context), // Call the registration function on button press
+                            onPressed: () => _registerWithEmailAndPassword(
+                                context), // Call the registration function on button press
                             child: Text(
                               'Sign up',
                               style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 1,
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                height: 1,
                               ),
                             ),
                           ),
@@ -631,9 +628,9 @@ class CreateAccountPage extends StatelessWidget {
               ),
             ),
             Positioned(
-            left: 114,
-            top: 736,
-            child: Container(),
+              left: 114,
+              top: 736,
+              child: Container(),
             ),
           ],
         ),
@@ -642,19 +639,189 @@ class CreateAccountPage extends StatelessWidget {
   }
 }
 
+class DashBoard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Colors.transparent,
+        child: Container(
+          width: 428,
+          height: 926,
+          clipBehavior: Clip.antiAlias,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: 428,
+                  height: 926,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.4699999988079071),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 43,
+                top: 98,
+                child: SizedBox(
+                  width: 343,
+                  child: Text(
+                    'Dashboard',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF0A6C14),
+                      fontSize: 35,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                  left: 75,
+                  top: 193,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigate to the create account page here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EmptyPage1()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent, // Set to transparent
+                      shadowColor: Colors.transparent, // Set to transparent
+                    ),
+                    child: Container(
+                      width: 252,
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
+                      decoration: ShapeDecoration(
+                        color: Color(0xFF0A6C14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0xFFCAD6FF),
+                            blurRadius: 20,
+                            offset: Offset(0, 10),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Profile',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+              Positioned(
+                left: 75,
+                top: 295,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmptyPage2()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
+                  child: Container(
+                    width: 252,
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF0A6C14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0xFFCAD6FF),
+                          blurRadius: 20,
+                          offset: Offset(0, 10),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Find Local!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
 
-
-
-class NewPage extends StatelessWidget {
+class EmptyPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Page'),
+        title: Text('Create profile for matching algorithm'),
       ),
-      body: Center(
-        child: Text('This is the new empty page.'),
+      body: Container(),
+    );
+  }
+}
+
+class EmptyPage2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Run matching algorithm using information from profile then display match'),
       ),
+      body: Container(),
     );
   }
 }
