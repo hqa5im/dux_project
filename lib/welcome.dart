@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -197,8 +198,31 @@ class _WelcomeState extends State<Welcome> {
 
 
 class LoginPage extends StatelessWidget {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _signInWithEmailAndPassword(BuildContext context) async {
+  final email = _emailController.text.trim();
+  final password = _passwordController.text.trim();
+
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    // Navigate to the new page upon successful sign-in.
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NewPage()),
+    );
+
+  } catch (e) {
+    // Handle any errors here, such as displaying an error message.
+    print('Error signing in: $e');
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -296,11 +320,12 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
                     const SizedBox(height: 30),
+                    
                     Container(
                       width: 357,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
-                        vertical: 15,
+                        vertical: 5,
                       ),
                       decoration: ShapeDecoration(
                         color: Color(0xFF0A6C14),
@@ -321,20 +346,23 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Sign in',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
+                          TextButton(
+                            onPressed: () => _signInWithEmailAndPassword(context), // Call the sign-in function on button press
+                            child: Text(
+                              'Sign in',
+                              style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
-                              height: 1, // Adjusted height to 1
+                              height: 1,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
+
                     Container(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -394,8 +422,31 @@ class LoginPage extends StatelessWidget {
 
 
 class CreateAccountPage extends StatelessWidget {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _registerWithEmailAndPassword(BuildContext context) async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+    // Navigate to the new page upon successful sign-in.
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+
+      // You can add further logic here, e.g., navigate to another screen upon successful registration.
+    } catch (e) {
+      // Handle any errors here, such as displaying an error message.
+      print('Error registering: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -497,7 +548,7 @@ class CreateAccountPage extends StatelessWidget {
                       width: 357,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
-                        vertical: 15,
+                        vertical: 5,
                       ),
                       decoration: ShapeDecoration(
                         color: Color(0xFF0A6C14),
@@ -518,15 +569,17 @@ class CreateAccountPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Sign up',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
+                          TextButton(
+                            onPressed: () => _registerWithEmailAndPassword(context), // Call the registration function on button press
+                            child: Text(
+                              'Sign up',
+                              style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
-                              height: 1, // Adjusted height to 1
+                              height: 1,
+                              ),
                             ),
                           ),
                         ],
@@ -578,12 +631,29 @@ class CreateAccountPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 114,
-              top: 736,
-              child: Container(),
+            left: 114,
+            top: 736,
+            child: Container(),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+
+
+
+class NewPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Page'),
+      ),
+      body: Center(
+        child: Text('This is the new empty page.'),
       ),
     );
   }
