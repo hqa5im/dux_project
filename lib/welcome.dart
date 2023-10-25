@@ -196,14 +196,236 @@ class _WelcomeState extends State<Welcome> {
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
+    return Container(
+      width: 428,
+      height: 926,
+      clipBehavior: Clip.antiAlias,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
       ),
-      // Add your login page UI here
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Container(width: 428, height: 926),
+          ),
+          Positioned(
+            left: 168,
+            top: 97,
+            child: Text(
+              'Login',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF0A6C14),
+                fontSize: 30,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w700,
+                height: 1, // Adjusted height to 1
+              ),
+            ),
+          ),
+          Positioned(
+            left: 31,
+            top: 302,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 357,
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 20,
+                            right: 35,
+                            bottom: 20,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFF1F4FF),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 2,
+                                color: Color(0xFF0A6C14),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Email',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF616161),
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1, // Adjusted height to 1
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 29),
+                        Container(
+                          width: 357,
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 20,
+                            right: 35,
+                            bottom: 20,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFF1F4FF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Password',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF616161),
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  height: 1, // Adjusted height to 1
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    'Forgot your password?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF0A6C14),
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 1, // Adjusted height to 1
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 357,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF0A6C14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0xFFCAD6FF),
+                                blurRadius: 20,
+                                offset: Offset(0, 10),
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sign in',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  height: 1, // Adjusted height to 1
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Container(
+                          width: 357,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Create new account',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF494949),
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  height: 1, // Adjusted height to 1
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 114,
+            top: 736,
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 }
+
+
 
 class CreateAccountPage extends StatelessWidget {
   @override
