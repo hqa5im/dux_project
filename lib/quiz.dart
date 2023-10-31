@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dux_project/welcome.dart';
 
 // START OF ROLES SELECT STATE //
 class MultiSelect extends StatefulWidget {
@@ -318,8 +319,7 @@ class _FormPageState extends State<FormPage> {
     final List<String> preference = [
       'Cultural Immersion',
       'Adventure/Outdoor',
-      'Activities',
-      'Food and Culinary Exploration',
+      'Culinary Exploration',
       'Historical Sightseeing',
       'Nightlife and Entertainment',
       'Relaxation'
@@ -389,7 +389,7 @@ class _FormPageState extends State<FormPage> {
             // question 1 box
             Positioned(
               left: 70,
-              top: 185,
+              top: 165,
               child: ElevatedButton(
                 onPressed: () {
                   _showSingleSelect1();
@@ -442,20 +442,24 @@ class _FormPageState extends State<FormPage> {
             // answer to question 1
             Positioned(
               left: 70,
-              top: 250,
-              child: Wrap(
-                children: _selectedRoles
-                    .map((role) => Chip(
-                          label: Text(role),
-                        ))
-                    .toList(),
+              top: 230,
+              child: Container(
+                width: MediaQuery.of(context).size.width -
+                    70 * 2, // Subtract the left and right padding
+                child: Wrap(
+                  children: _selectedRoles
+                      .map((role) => Chip(
+                            label: Text(role),
+                          ))
+                      .toList(),
+                ),
               ),
             ),
 
             // question 2 box
             Positioned(
               left: 70,
-              top: 310,
+              top: 290,
               child: ElevatedButton(
                 onPressed: () {
                   _showSingleSelect2();
@@ -508,20 +512,24 @@ class _FormPageState extends State<FormPage> {
             // answer to question 2
             Positioned(
               left: 70,
-              top: 375,
-              child: Wrap(
-                children: _selectedLocation
-                    .map((role) => Chip(
-                          label: Text(role),
-                        ))
-                    .toList(),
+              top: 355,
+              child: Container(
+                width: MediaQuery.of(context).size.width -
+                    70 * 2, // Subtract the left and right padding
+                child: Wrap(
+                  children: _selectedLocation
+                      .map((role) => Chip(
+                            label: Text(role),
+                          ))
+                      .toList(),
+                ),
               ),
             ),
 
             // question 3 box
             Positioned(
               left: 70,
-              top: 435,
+              top: 415,
               child: ElevatedButton(
                 onPressed: () {
                   _showMultiSelect3();
@@ -574,20 +582,26 @@ class _FormPageState extends State<FormPage> {
             // answer to question 3
             Positioned(
               left: 70,
-              top: 500,
-              child: Wrap(
-                children: _selectedLanguage
-                    .map((role) => Chip(
-                          label: Text(role),
-                        ))
-                    .toList(),
-              ),
+              top: 480,
+              child: Container(
+                  width: MediaQuery.of(context).size.width -
+                      70 * 2, // Subtract the left and right padding
+                  child: Wrap(
+                    children: [
+                      for (var language in _selectedLanguage.take(3))
+                        Chip(
+                          label: Text(language),
+                        ),
+                      if (_selectedLanguage.length > 3)
+                        Chip(label: Text('etc.')),
+                    ],
+                  )),
             ),
 
             // question 4 box
             Positioned(
               left: 70,
-              top: 560,
+              top: 540,
               child: ElevatedButton(
                 onPressed: () {
                   _showMultiSelect4();
@@ -640,15 +654,76 @@ class _FormPageState extends State<FormPage> {
             // answer to question 4
             Positioned(
               left: 70,
-              top: 625,
-              child: Wrap(
-                children: _selectedPreference
-                    .map((role) => Chip(
-                          label: Text(role),
-                        ))
-                    .toList(),
+              top: 605,
+              child: Container(
+                  width: MediaQuery.of(context).size.width -
+                      70 * 2, // Subtract the left and right padding
+                  child: Wrap(
+                    children: [
+                      for (var preference in _selectedPreference.take(3))
+                        Chip(
+                          label: Text(preference),
+                        ),
+                      if (_selectedPreference.length > 3)
+                        Chip(label: Text('etc.')),
+                    ],
+                  )),
+            ),
+
+          // save button
+          Positioned(
+            left: 70,
+            top: 775,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => DashBoard()),);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent, // Set to transparent
+                shadowColor: Colors.transparent, // Set to transparent
+              ),
+              child: Container(
+                width: 252,
+                height: 60,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 140, 13, 13),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0xFFCAD6FF),
+                      blurRadius: 20,
+                      offset: Offset(0, 10),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Save',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
+          ),
+
           ],
         ),
       ),
