@@ -10,26 +10,12 @@ class MultiSelect extends StatefulWidget {
 }
 
 class _MultiSelectState extends State<MultiSelect> {
-  List<String> _selectedRoles = [];
+  String? _selectedRole;
 
-  void _roleChange(String roleValue, bool isSelected) {
+  void _roleChange(String roleValue) {
     setState(() {
-      if (isSelected) {
-        _selectedRoles.add(roleValue);
-      } else {
-        _selectedRoles.remove(roleValue);
-      }
+      _selectedRole = roleValue;
     });
-  }
-
-  // this function is called when the cancel button is pressed
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-  // this function is called when the save button is pressed
-  void _save() {
-    Navigator.pop(context, _selectedRoles);
   }
 
   @override
@@ -37,25 +23,27 @@ class _MultiSelectState extends State<MultiSelect> {
     return AlertDialog(
       title: const Text('Select Roles'),
       content: SingleChildScrollView(
-          child: ListBody(
-        children: widget.roles
-            .map((role) => CheckboxListTile(
-                  value: _selectedRoles.contains(role),
-                  title: Text(role),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (bool? isSelected) {
-                    _roleChange(role, isSelected!);
-                  },
-                ))
-            .toList(),
-      )),
+        child: ListBody(
+          children: widget.roles.map((role) {
+            return RadioListTile<String>(
+              value: role,
+              groupValue: _selectedRole,
+              title: Text(role),
+              onChanged: (String? newValue) {
+                _roleChange(role);
+              },
+            );
+          }).toList(),
+        ),
+      ),
       actions: [
         TextButton(
-          onPressed: _cancel,
+          onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: _save,
+          onPressed: () => Navigator.pop(
+              context, _selectedRole != null ? [_selectedRole!] : []),
           child: const Text('Save'),
         ),
       ],
@@ -74,52 +62,40 @@ class MultiSelect2 extends StatefulWidget {
 }
 
 class _MultiSelectState2 extends State<MultiSelect2> {
-  List<String> _selectedLocation = [];
+  String? _selectedLocation;
 
-  void _roleChange(String roleValue, bool isSelected) {
+  void _roleChange(String roleValue) {
     setState(() {
-      if (isSelected) {
-        _selectedLocation.add(roleValue);
-      } else {
-        _selectedLocation.remove(roleValue);
-      }
+      _selectedLocation = roleValue;
     });
-  }
-
-  // this function is called when the cancel button is pressed
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-  // this function is called when the save button is pressed
-  void _save() {
-    Navigator.pop(context, _selectedLocation);
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Roles'),
+      title: const Text('Select Location'),
       content: SingleChildScrollView(
-          child: ListBody(
-        children: widget.location
-            .map((role) => CheckboxListTile(
-                  value: _selectedLocation.contains(role),
-                  title: Text(role),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (bool? isSelected) {
-                    _roleChange(role, isSelected!);
-                  },
-                ))
-            .toList(),
-      )),
+        child: ListBody(
+          children: widget.location.map((role) {
+            return RadioListTile<String>(
+              value: role,
+              groupValue: _selectedLocation,
+              title: Text(role),
+              onChanged: (String? newValue) {
+                _roleChange(role);
+              },
+            );
+          }).toList(),
+        ),
+      ),
       actions: [
         TextButton(
-          onPressed: _cancel,
+          onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: _save,
+          onPressed: () => Navigator.pop(
+              context, _selectedLocation != null ? [_selectedLocation!] : []),
           child: const Text('Save'),
         ),
       ],
@@ -163,7 +139,7 @@ class _MultiSelectState3 extends State<MultiSelect3> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Roles'),
+      title: const Text('Select Language'),
       content: SingleChildScrollView(
           child: ListBody(
         children: widget.language
@@ -227,7 +203,7 @@ class _MultiSelectState4 extends State<MultiSelect4> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Roles'),
+      title: const Text('Select Travel Preferences'),
       content: SingleChildScrollView(
           child: ListBody(
         children: widget.preference
@@ -256,8 +232,6 @@ class _MultiSelectState4 extends State<MultiSelect4> {
 }
 // END OF TRAVEL PREFERENCES SELECT STATE //
 
-
-
 // quiz page UI
 class FormPage extends StatefulWidget {
   @override
@@ -269,7 +243,7 @@ class _FormPageState extends State<FormPage> {
   List<String> _selectedLocation = [];
   List<String> _selectedLanguage = [];
   List<String> _selectedPreference = [];
-  
+
   // roles single select
   void _showSingleSelect1() async {
     final List<String> roles = ['Tourist', 'Tour Guide'];
@@ -291,7 +265,13 @@ class _FormPageState extends State<FormPage> {
 
   // location multi select
   void _showSingleSelect2() async {
-    final List<String> location = ['Doha', 'Lahore', 'Dubai', 'London', 'Paris'];
+    final List<String> location = [
+      'Doha',
+      'Lahore',
+      'Dubai',
+      'London',
+      'Paris'
+    ];
 
     final List<String>? selectedLocation = await showDialog(
       context: context,
@@ -310,7 +290,13 @@ class _FormPageState extends State<FormPage> {
 
   // language multi select
   void _showMultiSelect3() async {
-    final List<String> language = ['English', 'Urdu', 'Arabic', 'French', 'Spanish'];
+    final List<String> language = [
+      'English',
+      'Urdu',
+      'Arabic',
+      'French',
+      'Spanish'
+    ];
 
     final List<String>? selectedLanguage = await showDialog(
       context: context,
@@ -329,9 +315,15 @@ class _FormPageState extends State<FormPage> {
 
   // travel preferences multi select
   void _showMultiSelect4() async {
-    final List<String> preference = ['Cultural Immersion', 'Adventure/Outdoor', 'Activities', 
-                                      'Food and Culinary Exploration', 'Historical Sightseeing', 
-                                      'Nightlife and Entertainment', 'Relaxation'];
+    final List<String> preference = [
+      'Cultural Immersion',
+      'Adventure/Outdoor',
+      'Activities',
+      'Food and Culinary Exploration',
+      'Historical Sightseeing',
+      'Nightlife and Entertainment',
+      'Relaxation'
+    ];
 
     final List<String>? selectedPreference = await showDialog(
       context: context,
@@ -657,7 +649,6 @@ class _FormPageState extends State<FormPage> {
                     .toList(),
               ),
             ),
-
           ],
         ),
       ),
