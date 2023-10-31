@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dux_project/quiz.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -805,11 +806,8 @@ class DashBoard extends StatelessWidget {
 class EmptyPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Create profile for matching algorithm'),
-      ),
-      body: Container(),
+    return MaterialApp(
+      home: FormPage(),
     );
   }
 }
@@ -821,7 +819,6 @@ class EmptyPage2 extends StatelessWidget {
       appBar: AppBar(
         title: Text('Run matching algorithm using information from profile then display match'),
       ),
-      body: Container(),
     );
   }
 }
