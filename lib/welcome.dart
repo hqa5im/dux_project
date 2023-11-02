@@ -846,7 +846,7 @@ class DashBoard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 15),
                     decoration: ShapeDecoration(
-                      color: Color(0xFF0A6C14),
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -868,7 +868,7 @@ class DashBoard extends StatelessWidget {
                           'Log out',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Color(0xFF0A6C14),
                             fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
