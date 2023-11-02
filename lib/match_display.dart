@@ -1,17 +1,25 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:dux_project/welcome.dart';
+import 'package:dux_project/jaccard_algorithm.dart';
 
 // display the match result
 class ResultPage extends StatefulWidget {
+  final String matchEmail;
+
+  // Constructor
+  ResultPage({required this.matchEmail});
+
   @override
   _ResultPageState createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
+
   @override
   Widget build(BuildContext context) {
-    color:
-    Colors.transparent;
+    color:Colors.transparent;
     return Material(
         child: Container(
       width: 428,
@@ -68,7 +76,7 @@ class _ResultPageState extends State<ResultPage> {
             child: SizedBox(
               width: 343,
               child: Text(
-                'Matched with Name!', // name of the matched user
+                'Matched with ${widget.matchEmail}!', // name of the matched user
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF0A6C14),

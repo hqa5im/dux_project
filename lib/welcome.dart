@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dux_project/quiz.dart';
 import 'package:dux_project/match_display.dart';
+import 'package:dux_project/jaccard_algorithm.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -662,6 +665,20 @@ class CreateAccountPage extends StatelessWidget {
 }
 
 class DashBoard extends StatelessWidget {
+
+  String matchEmail = 'No Match';
+  void emailResult() async {
+    final User? user = _auth.currentUser;
+    final email = user?.email; // Get the user's ID
+    if (email != null) {
+      matchEmail = await jaccardAlgorithm(email);
+      print(email);
+      print('here');
+    }
+    print('no here');
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -771,12 +788,13 @@ class DashBoard extends StatelessWidget {
                 top: 295,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to the create account page here
+                    emailResult();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MatchPage()),
+                          builder: (context) => MatchPage(matchEmail: matchEmail)),
                     );
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.transparent, // Set to transparent
@@ -897,10 +915,15 @@ class Quiz extends StatelessWidget {
 }
 
 class MatchPage extends StatelessWidget {
+  final String matchEmail;
+
+  MatchPage({required this.matchEmail}){
+  print(matchEmail);}
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ResultPage(),
+      home: ResultPage(matchEmail: matchEmail),
     );
   }
 }
