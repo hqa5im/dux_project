@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dux_project/quiz.dart';
+import 'package:dux_project/match_display.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -695,7 +696,7 @@ class DashBoard extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EmptyPage1()),
+                            builder: (context) => Quiz()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -750,7 +751,7 @@ class DashBoard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EmptyPage2()),
+                          builder: (context) => MatchPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -803,7 +804,7 @@ class DashBoard extends StatelessWidget {
   }
 }
 
-class EmptyPage1 extends StatelessWidget {
+class Quiz extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -812,13 +813,11 @@ class EmptyPage1 extends StatelessWidget {
   }
 }
 
-class EmptyPage2 extends StatelessWidget {
+class MatchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Run matching algorithm using information from profile then display match'),
-      ),
+    return MaterialApp(
+      home: ResultPage(),
     );
   }
 }
