@@ -385,15 +385,25 @@ class LoginPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Create new account',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF494949),
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1, // Adjusted height to 1
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateAccountPage()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Create new account',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF494949),
+                                      fontSize: 14,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      height: 1, // Adjusted height to 1
+                                    ),
                                   ),
                                 ),
                               ],
@@ -608,15 +618,25 @@ class CreateAccountPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Already have an account',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF494949),
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    height: 1, // Adjusted height to 1
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              LoginPage()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Already have an account',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF494949),
+                                      fontSize: 14,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      height: 1, // Adjusted height to 1
+                                    ),
                                   ),
                                 ),
                               ],
@@ -687,6 +707,8 @@ class DashBoard extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // profile button
               Positioned(
                   left: 75,
                   top: 193,
@@ -742,6 +764,8 @@ class DashBoard extends StatelessWidget {
                       ),
                     ),
                   )),
+
+              // find local button
               Positioned(
                 left: 75,
                 top: 295,
@@ -798,6 +822,65 @@ class DashBoard extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // log out button
+              Positioned(
+                left: 75,
+                top: 795,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
+                  child: Container(
+                    width: 252,
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF0A6C14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0xFFCAD6FF),
+                          blurRadius: 20,
+                          offset: Offset(0, 10),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Log out',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            height: 0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
             ],
           ),
         ));
