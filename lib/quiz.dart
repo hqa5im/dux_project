@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dux_project/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // START OF ROLES SELECT STATE //
 class MultiSelect extends StatefulWidget {
@@ -244,6 +246,53 @@ class _FormPageState extends State<FormPage> {
   List<String> _selectedLocation = [];
   List<String> _selectedLanguage = [];
   List<String> _selectedPreference = [];
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    loadProfile();
+  }
+
+  void loadProfile() async {
+    final User? user = _auth.currentUser;
+    final email = user?.email; // Get the user's ID
+
+    if (email != null) {
+      final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+          await _firestore.collection('profiles').doc(email).get();
+
+      if (docSnapshot.exists) {
+        setState(() {
+          _selectedRoles = List<String>.from(docSnapshot.data()!['roles']);
+          _selectedLocation = List<String>.from(docSnapshot.data()!['location']);
+          _selectedLanguage = List<String>.from(docSnapshot.data()!['language']);
+          _selectedPreference = List<String>.from(docSnapshot.data()!['preference']);
+        });
+      }
+    } else {
+      print('uid is null');
+    }
+  }
+
+  void saveProfile() {
+    // Declare the function here
+    final User? user = _auth.currentUser;
+    final email = user?.email; // Get the user's ID
+
+    if (email != null) {
+    _firestore.collection('profiles').doc(email).set({
+      'roles': _selectedRoles,
+      'location': _selectedLocation,
+      'language': _selectedLanguage,
+      'preference': _selectedPreference,
+    });
+    } else {
+      print('uid is null');
+    }
+  }
 
   // roles single select
   void _showSingleSelect1() async {
@@ -676,6 +725,7 @@ class _FormPageState extends State<FormPage> {
             top: 775,
             child: ElevatedButton(
               onPressed: () {
+                saveProfile();
                 Navigator.push(context, MaterialPageRoute(
                             builder: (context) => DashBoard()),);
               },
