@@ -667,7 +667,7 @@ class CreateAccountPage extends StatelessWidget {
 class DashBoard extends StatelessWidget {
 
   String matchEmail = 'No Match';
-  void emailResult() async {
+  Future<void> emailResult() async {
     final User? user = _auth.currentUser;
     final email = user?.email; // Get the user's ID
     if (email != null) {
@@ -787,14 +787,14 @@ class DashBoard extends StatelessWidget {
                 left: 75,
                 top: 295,
                 child: ElevatedButton(
-                  onPressed: () {
-                    emailResult();
+                  onPressed: () async {
+                    await emailResult();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => MatchPage(matchEmail: matchEmail)),
                     );
-                    // }
+                    // setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.transparent, // Set to transparent
