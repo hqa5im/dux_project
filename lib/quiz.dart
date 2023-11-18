@@ -423,7 +423,7 @@ class _FormPageState extends State<FormPage> {
               // title of page
               Positioned(
                 left: 46,
-                top: 78,
+                top: 95,
                 child: SizedBox(
                   width: 343,
                   child: Text(
@@ -431,7 +431,7 @@ class _FormPageState extends State<FormPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF06215C),
-                      fontSize: 30,
+                      fontSize: 35,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
                       height: 0,

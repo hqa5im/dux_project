@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:dux_project/pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // display the match result
 class ResultPage extends StatefulWidget {
@@ -219,6 +220,7 @@ class _ResultPageState extends State<ResultPage> {
   }
 }
 
+// shows the profile of the matched user
 class MatchProfile extends StatefulWidget {
   final String matchEmail;
 
@@ -252,15 +254,17 @@ class _MatchProfileState extends State<MatchProfile> {
     }
   }
 
-//   void fetchPreferences() async {
-//   // Assume getPreferencesFromServer is a function that fetches the preferences
-//   List<String> preferences = await getPreferencesFromServer();
+  // send match notifcation to other user
+  Future<void> sendMatchNotification() async {
+    CollectionReference matches = firestore.collection('matches');
 
-//   // Update the state and inform the framework to rebuild the UI
-//   setState(() {
-//     preferenceStr = preferences.join('\n');
-//   });
-// }
+    // Add a new document with the match data
+    await matches.add({
+      'user1': FirebaseAuth.instance.currentUser!.email, // logged in user email
+      'user2': widget.matchEmail, // matched user email
+      'timestamp': FieldValue.serverTimestamp(), // The time when the match was made
+    });
+  }
 
   @override
   void initState() {
@@ -377,8 +381,22 @@ class _MatchProfileState extends State<MatchProfile> {
               ),
             ),
             Positioned(
-              left: 88,
+              left: 72,
               top: 745,
+              child: ElevatedButton(
+                  onPressed: () {
+                    sendMatchNotification(); /// added
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DashBoard()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
               child: Container(
                 width: 252,
                 height: 60,
@@ -417,17 +435,19 @@ class _MatchProfileState extends State<MatchProfile> {
                   ],
                 ),
               ),
+              ),
             ),
             Positioned(
               left: 72,
               top: 669,
               child: ElevatedButton(
                   onPressed: () {
+                    sendMatchNotification(); /// added
                     // Navigate to the create account page here
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DashBoard()),
+                          builder: (context) => MatchList(userEmail: widget.matchEmail)),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -464,14 +484,14 @@ class _MatchProfileState extends State<MatchProfile> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
               ),
             ),
             Positioned(
@@ -504,7 +524,6 @@ class _MatchProfileState extends State<MatchProfile> {
                 ),
               ),
             ),
-            
             Positioned(
               left: 46,
               top: 297,
@@ -574,6 +593,119 @@ class _MatchProfileState extends State<MatchProfile> {
           ],
         ),
       ),
+    );
+  }
+}
+
+// shows notification when a match is made
+class MatchList extends StatefulWidget {
+  final String userEmail;
+
+  MatchList({required this.userEmail});
+
+  @override
+  _MatchListState createState() => _MatchListState();
+}
+
+class _MatchListState extends State<MatchList> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  List<Map<String, dynamic>> matches = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMatches();
+  }
+
+  Future<void> fetchMatches() async {
+    CollectionReference matchesCollection = firestore.collection('matches');
+
+    QuerySnapshot querySnapshot = await matchesCollection
+        .where('user1', isEqualTo: widget.userEmail)
+        .get();
+    QuerySnapshot querySnapshot2 = await matchesCollection
+        .where('user2', isEqualTo: widget.userEmail)
+        .get();
+
+    List<Map<String, dynamic>> fetchedMatches = querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .where((item) => item != null)
+        .toList();
+    fetchedMatches.addAll(querySnapshot2.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .where((item) => item != null)
+        .toList());
+
+    setState(() {
+      matches = fetchedMatches;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    
+
+    return Material(
+    child: Stack(
+      children: [
+        Positioned(
+          left: 46,
+          top: 95,
+          child: SizedBox(
+            width: 343,
+            child: Text(
+              'Notifications',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF06215C),
+                fontSize: 35,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+                height: 0,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 100.0), // Adjust the value as needed
+          child: ListView.builder(
+            itemCount: matches.length,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 200,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        20.0), // Adjust the value as needed
+                  ),
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        'Match between ${matches[index]['user1']} and ${matches[index]['user2']}',
+                        style: TextStyle(
+                          fontFamily: 'Poppins', // Set the font family
+                          fontSize: 20, // Set the font size
+                          fontWeight: FontWeight.w600, // Set the font weight
+                        ),
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Matched on: ${matches[index]['timestamp']?.toDate() ?? 'N/A'}',
+                      style: TextStyle(
+                        fontFamily: 'Poppins', // Set the font family
+                        fontSize: 16, // Set the font size
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    )
     );
   }
 }

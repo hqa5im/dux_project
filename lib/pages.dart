@@ -674,12 +674,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  final user = FirebaseAuth.instance.currentUser;
+  String? userEmail;
+  late List<Widget> pages;
 
-  final pages = [
-    LandingPage(), // Replace with your Home widget
-    Quiz(), // Replace with your Quiz widget
-    DashBoard(), // Replace with your Notifications widget
-  ];
+  @override
+  void initState() {
+    super.initState();
+    userEmail = user?.email;
+    pages = [
+      LandingPage(),
+      Quiz(),
+      DashBoard(),
+      MatchList(userEmail: userEmail ?? ''),
+    ];
+  }
 
   void updateIndex(int index) {
     setState(() {
@@ -698,6 +707,8 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
+        unselectedItemColor: Colors.grey, // Color for unselected icons
+        selectedItemColor: Colors.blue, // Color for the selected icon
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -706,6 +717,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.newspaper),
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
@@ -855,7 +870,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Positioned(
-                left: 93,
+                left: 80,
                 top: 257,
                 child: ElevatedButton(
                   onPressed: () {
@@ -882,7 +897,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               Positioned(
-                left: 128,
+                left: 110,
                 top: 525,
                 child: ElevatedButton(
                   onPressed: () {
