@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +8,7 @@ import 'package:dux_project/jaccard_algorithm.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+// Welcome page UI
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
 
@@ -201,6 +202,7 @@ class _WelcomeState extends State<Welcome> {
   }
 }
 
+// Login page UI
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -431,6 +433,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
+// Create account page UI
 class CreateAccountPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -664,6 +667,7 @@ class CreateAccountPage extends StatelessWidget {
   }
 }
 
+// Dashboard page UI
 class DashBoard extends StatelessWidget {
 
   String matchEmail = 'No Match';
@@ -905,6 +909,7 @@ class DashBoard extends StatelessWidget {
   }
 }
 
+// takes you to quiz page
 class Quiz extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -914,6 +919,7 @@ class Quiz extends StatelessWidget {
   }
 }
 
+// takes you to match page
 class MatchPage extends StatelessWidget {
   final String matchEmail;
 

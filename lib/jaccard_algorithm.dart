@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:dux_project/welcome.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -44,7 +41,7 @@ double jaccardSimilarity(List<String> list1, List<String> list2) {
 
 // calculates the jaccard similarity of two users
 Future<double> calculateSimilarity(Map<String, dynamic> profile1, Map<String, dynamic> profile2) async {
-  final rolesSimilarity = jaccardSimilarity(List<String>.from(profile1['roles']), List<String>.from(profile2['roles']));
+  final rolesSimilarity = 1 - jaccardSimilarity(List<String>.from(profile1['roles']), List<String>.from(profile2['roles']));
   final locationSimilarity = jaccardSimilarity(List<String>.from(profile1['location']), List<String>.from(profile2['location']));
   final languageSimilarity = jaccardSimilarity(List<String>.from(profile1['language']), List<String>.from(profile2['language']));
   final preferenceSimilarity = jaccardSimilarity(List<String>.from(profile1['preference']), List<String>.from(profile2['preference']));
@@ -55,7 +52,8 @@ Future<double> calculateSimilarity(Map<String, dynamic> profile1, Map<String, dy
   return similarity;
 }
 
-
+// runs the jaccard algorithm
+// if no match found returns 'no one yet'
 Future<String> jaccardAlgorithm(String email) async {
   final profile1 = await getProfileData(email);
   final allProfiles = await getEmailsAndData();
@@ -65,6 +63,10 @@ Future<String> jaccardAlgorithm(String email) async {
 
   for (final profile2 in allProfiles.entries) {
     if (profile2.key != email) {
+      // checking if in same location
+      if (profile1['location'] != profile2.value['location']) {
+        continue;
+      }
       final similarity = await calculateSimilarity(profile1, profile2.value);
       if (similarity > highestSimilarity) {
         highestSimilarity = similarity;

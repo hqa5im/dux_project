@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:dux_project/welcome.dart';
-import 'package:dux_project/jaccard_algorithm.dart';
+import 'package:dux_project/pages.dart';
 
 // display the match result
 class ResultPage extends StatefulWidget {
