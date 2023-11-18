@@ -48,7 +48,7 @@ class _MultiSelectState extends State<MultiSelect> {
         ),
         TextButton(
           onPressed: () => Navigator.pop(
-              context, (_selectedRole != null ? [_selectedRole!] : []).cast<String>(),),
+              context, _selectedRole != null ? [_selectedRole!] : []),
           child: const Text('Save'),
         ),
       ],
@@ -100,7 +100,7 @@ class _MultiSelectState2 extends State<MultiSelect2> {
         ),
         TextButton(
           onPressed: () => Navigator.pop(
-              context, (_selectedLocation != null ? [_selectedLocation!] : []).cast<String>(),),
+              context, _selectedLocation != null ? [_selectedLocation!] : []),
           child: const Text('Save'),
         ),
       ],
@@ -395,85 +395,87 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Colors.transparent,
-        child: Container(
-          width: 428,
-          height: 926,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
+      color: Colors.transparent,
+      child: Container(
+        width: 428,
+        height: 926,
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
           ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 0,
-                top: 0,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 428,
+                height: 926,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.4699999988079071),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 43,
+              top: 98,
+              child: SizedBox(
+                width: 343,
+                child: Text(
+                  'Profile',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF06215C),
+                    fontSize: 35,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+
+            // question 1 box
+            Positioned(
+              left: 70,
+              top: 165,
+              child: ElevatedButton(
+                onPressed: () {
+                  _showSingleSelect1();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent, // Set to transparent
+                  shadowColor: Colors.transparent, // Set to transparent
+                ),
                 child: Container(
-                  width: 428,
-                  height: 926,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4699999988079071),
-                  ),
-                ),
-              ),
-
-              // title of page
-              Positioned(
-                left: 46,
-                top: 78,
-                child: SizedBox(
-                  width: 343,
-                  child: Text(
-                    'Profile',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF06215C),
-                      fontSize: 30,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
+                  width: 252,
+                  height: 60,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF06215C),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0xFFCAD6FF),
+                        blurRadius: 20,
+                        offset: Offset(0, 10),
+                        spreadRadius: 0,
+                      )
+                    ],
                   ),
-                ),
-              ),
-
-              // Role button
-              Positioned(
-                left: 35,
-                top: 181,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showSingleSelect1();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set to transparent
-                    shadowColor: Colors.transparent, // Set to transparent
-                  ),
-                  child: Container(
-                    width: 157,
-                    height: 132,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF06215C),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0xFFCAD6FF),
-                          blurRadius: 20,
-                          offset: Offset(0, 10),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Confirm Role',
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Select Role',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -483,15 +485,16 @@ class _FormPageState extends State<FormPage> {
                           height: 0,
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
+            ),
 
-              // answer to role button
-              Positioned(
-              left: 50,
-              top: 570,
+            // answer to question 1
+            Positioned(
+              left: 70,
+              top: 230,
               child: Container(
                 width: MediaQuery.of(context).size.width -
                     70 * 2, // Subtract the left and right padding
@@ -505,25 +508,25 @@ class _FormPageState extends State<FormPage> {
               ),
             ),
 
-              // Location button
-              Positioned(
-                left: 212,
-                top: 181,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showSingleSelect2();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set to transparent
-                    shadowColor: Colors.transparent, // Set to transparent
-                  ), 
+            // question 2 box
+            Positioned(
+              left: 70,
+              top: 290,
+              child: ElevatedButton(
+                onPressed: () {
+                  _showSingleSelect2();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent, // Set to transparent
+                  shadowColor: Colors.transparent, // Set to transparent
+                ),
                 child: Container(
-                  width: 157,
-                  height: 132,
+                  width: 252,
+                  height: 60,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   decoration: ShapeDecoration(
-                    color: Color(0xFF06215C),
+                    color: Color(0xFF0A6C14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -536,27 +539,32 @@ class _FormPageState extends State<FormPage> {
                       )
                     ],
                   ),
-                  child: Center(
-                    child: Text(
-                      'Location',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Location',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  )
                 ),
               ),
+            ),
 
-              // Location button answer
-              Positioned(
-              left: 50,
-              top: 610,
+            // answer to question 2
+            Positioned(
+              left: 70,
+              top: 355,
               child: Container(
                 width: MediaQuery.of(context).size.width -
                     70 * 2, // Subtract the left and right padding
@@ -570,25 +578,25 @@ class _FormPageState extends State<FormPage> {
               ),
             ),
 
-              // Language button
-              Positioned(
-                left: 35,
-                top: 359,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showMultiSelect3();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set to transparent
-                    shadowColor: Colors.transparent, // Set to transparent
-                  ),
+            // question 3 box
+            Positioned(
+              left: 70,
+              top: 415,
+              child: ElevatedButton(
+                onPressed: () {
+                  _showMultiSelect3();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent, // Set to transparent
+                  shadowColor: Colors.transparent, // Set to transparent
+                ),
                 child: Container(
-                  width: 157,
-                  height: 132,
+                  width: 252,
+                  height: 60,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   decoration: ShapeDecoration(
-                    color: Color(0xFF06215C),
+                    color: Color(0xFF0A6C14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -601,27 +609,32 @@ class _FormPageState extends State<FormPage> {
                       )
                     ],
                   ),
-                  child: Center(
-                    child: Text(
-                      'Language',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        height: 0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Language',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  )
                 ),
               ),
+            ),
 
-              // Language button answer
-              Positioned(
-              left: 50,
-              top: 650,
+            // answer to question 3
+            Positioned(
+              left: 70,
+              top: 480,
               child: Container(
                   width: MediaQuery.of(context).size.width -
                       70 * 2, // Subtract the left and right padding
@@ -637,25 +650,25 @@ class _FormPageState extends State<FormPage> {
                   )),
             ),
 
-              // Travel Preferences button
-              Positioned(
-                left: 212,
-                top: 359,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showMultiSelect4();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set to transparent
-                    shadowColor: Colors.transparent, // Set to transparent
-                  ),
+            // question 4 box
+            Positioned(
+              left: 70,
+              top: 540,
+              child: ElevatedButton(
+                onPressed: () {
+                  _showMultiSelect4();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent, // Set to transparent
+                  shadowColor: Colors.transparent, // Set to transparent
+                ),
                 child: Container(
-                  width: 159,
-                  height: 132,
+                  width: 252,
+                  height: 60,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   decoration: ShapeDecoration(
-                    color: Color(0xFF06215C),
+                    color: Color(0xFF0A6C14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -668,127 +681,105 @@ class _FormPageState extends State<FormPage> {
                       )
                     ],
                   ),
-                  child: Center(
-                    child: Text(
-                            'Travel Preferences',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              height: 0,
-                            ),
-                          ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Travel Preferences',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 0,
                         ),
-                      ))),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
-              // Travel Preferences answer
-              Positioned(
-                left: 50,
-                top: 690,
-                child: Container(
+            // answer to question 4
+            Positioned(
+              left: 70,
+              top: 605,
+              child: Container(
                   width: MediaQuery.of(context).size.width -
                       70 * 2, // Subtract the left and right padding
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final maxChips = constraints.maxWidth ~/
-                          200; // Estimate the maximum number of chips that can fit
-                      final chips = _selectedPreference
-                          .take(maxChips)
-                          .map((preference) => Chip(label: Text(preference)))
-                          .toList();
-
-                      if (_selectedPreference.length > maxChips) {
-                        chips.add(Chip(label: Text('etc.')));
-                      }
-
-                      return Row(children: chips);
-                    },
-                  ),
-                ),
-              ),
-
-              // And bit about yourself text
-              Positioned(
-                left: -50,
-                top: 535,
-                child: SizedBox(
-                  width: 343,
-                  child: Text(
-                    'To summarize...',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF06215C),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-
-              // All done button
-              Positioned(
-                left: 80,
-                top: 755,
-                child: ElevatedButton(
-                  onPressed: () {
-                    saveProfile();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DashBoard()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set to transparent
-                    shadowColor: Colors.transparent, // Set to transparent
-                  ),
-                  child: Container(
-                    width: 252,
-                    height: 60,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0xFFCAD6FF),
-                          blurRadius: 20,
-                          offset: Offset(0, 10),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-
-                    // All done button text
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'All Done!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF06215C),
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
+                  child: Wrap(
+                    children: [
+                      for (var preference in _selectedPreference.take(3))
+                        Chip(
+                          label: Text(preference),
                         ),
-                      ],
-                    ),
+                      if (_selectedPreference.length > 3)
+                        Chip(label: Text('etc.')),
+                    ],
+                  )),
+            ),
+
+          // save button
+          Positioned(
+            left: 70,
+            top: 775,
+            child: ElevatedButton(
+              onPressed: () {
+                saveProfile();
+                Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => DashBoard()),);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent, // Set to transparent
+                shadowColor: Colors.transparent, // Set to transparent
+              ),
+              child: Container(
+                width: 252,
+                height: 60,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 140, 13, 13),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0xFFCAD6FF),
+                      blurRadius: 20,
+                      offset: Offset(0, 10),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Save',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ));
+
+          ],
+        ),
+      ),
+    );
   }
 }

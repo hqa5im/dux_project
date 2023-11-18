@@ -75,7 +75,7 @@ class _WelcomeState extends State<Welcome> {
                       'Welcome to Dux!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         fontSize: 35,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class _WelcomeState extends State<Welcome> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 15),
                       decoration: BoxDecoration(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -166,7 +166,7 @@ class _WelcomeState extends State<Welcome> {
                         child: Text(
                           'Create Account',
                           style: TextStyle(
-                            color: Color(0xFF0A6C14),
+                            color: Color(0xFF06215C),
                             fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
@@ -220,7 +220,7 @@ class LoginPage extends StatelessWidget {
       // Navigate to the new page upon successful sign-in.
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DashBoard()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } catch (e) {
       // Handle any errors here, such as displaying an error message.
@@ -256,7 +256,7 @@ class LoginPage extends StatelessWidget {
                 'Login',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF0A6C14),
+                  color: Color(0xFF06215C),
                   fontSize: 30,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
@@ -331,7 +331,7 @@ class LoginPage extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -490,7 +490,7 @@ class CreateAccountPage extends StatelessWidget {
                 'Create Account',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF0A6C14),
+                  color: Color(0xFF06215C),
                   fontSize: 30,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
@@ -565,7 +565,7 @@ class CreateAccountPage extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -629,8 +629,7 @@ class CreateAccountPage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginPage()),
+                                          builder: (context) => LoginPage()),
                                     );
                                   },
                                   child: Text(
@@ -667,9 +666,263 @@ class CreateAccountPage extends StatelessWidget {
   }
 }
 
-// Dashboard page UI
-class DashBoard extends StatelessWidget {
 
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  final pages = [
+    LandingPage(), // Replace with your Home widget
+    Quiz(), // Replace with your Quiz widget
+    DashBoard(), // Replace with your Notifications widget
+  ];
+
+  void updateIndex(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notifications',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// this is what shows up when you press the home page icon
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key});
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        color: Colors.transparent,
+        child: Container(
+          width: 428,
+          height: 926,
+          clipBehavior: Clip.antiAlias,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: 428,
+                  height: 926,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.4699999988079071),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 46,
+                top: 90,
+                child: SizedBox(
+                  width: 343,
+                  child: Text(
+                    'Getaway to unique travel experiences',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF06215C),
+                      fontSize: 30,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 51,
+                top: 247,
+                child: Container(
+                  width: 334,
+                  height: 194,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0xFFCAD6FF),
+                        blurRadius: 20,
+                        offset: Offset(0, 10),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 51,
+                top: 201,
+                child: SizedBox(
+                  width: 343,
+                  height: 33,
+                  child: Text(
+                    'Use as Tourist!',
+                    style: TextStyle(
+                      color: Color(0xFF06215C),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 51,
+                top: 472,
+                child: SizedBox(
+                  width: 343,
+                  child: Text(
+                    'Earn as Tour Guide!',
+                    style: TextStyle(
+                      color: Color(0xFF06215C),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 51,
+                top: 515,
+                child: Container(
+                  width: 334,
+                  height: 194,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0xFFCAD6FF),
+                        blurRadius: 20,
+                        offset: Offset(0, 10),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 93,
+                top: 257,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Quiz()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
+                  child: Container(
+                    width: 250,
+                    height: 174,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/tourist.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 128,
+                top: 525,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Quiz()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
+                  child: Container(
+                    width: 190,
+                    height: 171,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/tour guide.png"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class DashBoard extends StatefulWidget { // edit this heavily
+  @override
+  _DashBoardState createState() => _DashBoardState();
+}
+
+// Dashboard page UI
+class _DashBoardState extends State<DashBoard> {
+
+  // int _currentIndex = 0;
   String matchEmail = 'No Match';
   Future<void> emailResult() async {
     final User? user = _auth.currentUser;
@@ -687,6 +940,8 @@ class DashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         color: Colors.transparent,
+
+        // branding on top
         child: Container(
           width: 428,
           height: 926,
@@ -719,7 +974,7 @@ class DashBoard extends StatelessWidget {
                     'Dashboard',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF0A6C14),
+                      color: Color(0xFF06215C),
                       fontSize: 35,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
@@ -752,7 +1007,7 @@ class DashBoard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 15),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -771,7 +1026,7 @@ class DashBoard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Profile',
+                            'Edit Profile',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -810,7 +1065,7 @@ class DashBoard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 15),
                     decoration: ShapeDecoration(
-                      color: Color(0xFF0A6C14),
+                      color: Color(0xFF06215C),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -829,7 +1084,7 @@ class DashBoard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Find Local!',
+                          'Find Tour Guide!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -848,7 +1103,7 @@ class DashBoard extends StatelessWidget {
               // log out button
               Positioned(
                 left: 75,
-                top: 795,
+                top: 765,
                 child: ElevatedButton(
                   onPressed: () {
                     // Navigate to the create account page here
@@ -890,7 +1145,7 @@ class DashBoard extends StatelessWidget {
                           'Log out',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFF0A6C14),
+                            color: Color(0xFF06215C),
                             fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
@@ -905,12 +1160,14 @@ class DashBoard extends StatelessWidget {
 
             ],
           ),
-        ));
+        )
+      );
   }
 }
 
 // takes you to quiz page
 class Quiz extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

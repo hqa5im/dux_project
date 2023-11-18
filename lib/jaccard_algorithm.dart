@@ -64,9 +64,9 @@ Future<String> jaccardAlgorithm(String email) async {
   for (final profile2 in allProfiles.entries) {
     if (profile2.key != email) {
       // checking if in same location
-      if (profile1['location'] != profile2.value['location']) {
-        continue;
-      }
+      // if (profile1['location'] != profile2.value['location']) {
+      //   continue;
+      // }
       final similarity = await calculateSimilarity(profile1, profile2.value);
       if (similarity > highestSimilarity) {
         highestSimilarity = similarity;

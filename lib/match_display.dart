@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:dux_project/pages.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // display the match result
 class ResultPage extends StatefulWidget {
@@ -78,7 +79,7 @@ class _ResultPageState extends State<ResultPage> {
                 'Matched with ${widget.matchEmail}!', // name of the matched user
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF0A6C14),
+                  color: Color(0xFF06215C),
                   fontSize: 35,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
@@ -96,7 +97,7 @@ class _ResultPageState extends State<ResultPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DashBoard()),
+                    MaterialPageRoute(builder: (context) => MatchProfile(matchEmail: widget.matchEmail)),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -109,7 +110,7 @@ class _ResultPageState extends State<ResultPage> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   decoration: ShapeDecoration(
-                    color: Color(0xFF0A6C14),
+                    color: Color(0xFF06215C),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -128,7 +129,7 @@ class _ResultPageState extends State<ResultPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Chat',
+                        'View Profile',                         // takes you to another page that shows the matched user's profile
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -183,10 +184,10 @@ class _ResultPageState extends State<ResultPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Unmatch',
+                      'Chat',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF0A6C14),
+                        color: Color(0xFF06215C),
                         fontSize: 20,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
@@ -215,5 +216,364 @@ class _ResultPageState extends State<ResultPage> {
         ],
       ),
     ));
+  }
+}
+
+class MatchProfile extends StatefulWidget {
+  final String matchEmail;
+
+  MatchProfile({required this.matchEmail});
+  
+  @override
+  _MatchProfileState createState() => _MatchProfileState();
+}
+
+class _MatchProfileState extends State<MatchProfile> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  List<String>? language;
+  List<String>? location;
+  List<String>? preference;
+
+  Future<void> getMatchedUserData() async {
+    DocumentReference docRef = firestore.collection('profiles').doc(widget.matchEmail);
+    DocumentSnapshot doc = await docRef.get();
+    if (doc.data() != null) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      language = List<String>.from(data['language'] as List<dynamic>);
+      location = List<String>.from(data['location'] as List<dynamic>);
+      preference = List<String>.from(data['preference'] as List<dynamic>);
+
+      setState(() {
+      preference = preference;
+    });
+    } else {
+      throw Exception('User data is null');
+    }
+  }
+
+//   void fetchPreferences() async {
+//   // Assume getPreferencesFromServer is a function that fetches the preferences
+//   List<String> preferences = await getPreferencesFromServer();
+
+//   // Update the state and inform the framework to rebuild the UI
+//   setState(() {
+//     preferenceStr = preferences.join('\n');
+//   });
+// }
+
+  @override
+  void initState() {
+    super.initState();
+    getMatchedUserData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String languageStr = language?.join(', ') ?? '';
+    String locationStr = location?.join(', ') ?? '';
+    String preferenceStr = preference?.join(', ') ?? '';
+    return Material(
+      color: Colors.transparent,
+      
+      // branding on top
+      child: Container(
+        width: 428,
+        height: 926,
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+        
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 428,
+                height: 926,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.4699999988079071),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 46,
+              top: 78,
+              child: SizedBox(
+                width: 343,
+                child: Text(
+                  'Profile',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF06215C),
+                    fontSize: 30,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 266,
+              top: 227,
+              child: SizedBox(
+                width: 89,
+                height: 41,
+                child: Text(
+                  'Location',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 47,
+              top: 393,
+              child: SizedBox(
+                width: 134,
+                height: 52,
+                child: Text(
+                  'Language Spoken: $language',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 240,
+              top: 393,
+              child: SizedBox(
+                width: 141,
+                height: 52,
+                child: Text(
+                  'Travel Preferences',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 88,
+              top: 745,
+              child: Container(
+                width: 252,
+                height: 60,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0xFFCAD6FF),
+                      blurRadius: 20,
+                      offset: Offset(0, 10),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Unmatch',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF06215C),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 72,
+              top: 669,
+              child: ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the create account page here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DashBoard()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent, // Set to transparent
+                    shadowColor: Colors.transparent, // Set to transparent
+                  ),
+              child: Container(
+                width: 252,
+                height: 60,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                decoration: ShapeDecoration(
+                  color: Color(0xFF06215C),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0xFFCAD6FF),
+                      blurRadius: 20,
+                      offset: Offset(0, 10),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Match',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+            ),
+            Positioned(
+              left: 43,
+              top: 162,
+              child: Text(
+                'Email: ${widget.matchEmail}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF06215C),
+                  fontSize: 20,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 43,
+              top: 231,
+              child: Text(
+                'Location: $locationStr',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF06215C),
+                  fontSize: 20,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+            
+            Positioned(
+              left: 46,
+              top: 297,
+              child: Text(
+                'Language’s spoken: $languageStr',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF06215C),
+                  fontSize: 20,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 43,
+              top: 363,
+              child: Container(
+                width: MediaQuery.of(context).size.width -
+                    86, // adjust the width as needed
+                child: SingleChildScrollView(
+                  child: Text(
+                    'Travel Preferences: $preferenceStr',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Color(0xFF06215C),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 43,
+              top: 550,
+              child: Text(
+                'Fee: 20 dollars per hour',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF06215C),
+                  fontSize: 20,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 42,
+              top: 488,
+              child: Text(
+                'Availability: Everyday 9am-5pm',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF06215C),
+                  fontSize: 20,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
