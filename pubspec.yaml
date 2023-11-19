@@ -67,6 +67,7 @@ flutter:
     - assets/blank profile.png
     - assets/tourist.png
     - assets/tour guide.png
+    - assets/explore.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

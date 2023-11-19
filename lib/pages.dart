@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dux_project/quiz.dart';
 import 'package:dux_project/match_display.dart';
 import 'package:dux_project/jaccard_algorithm.dart';
+import 'package:flutter/cupertino.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -666,7 +667,6 @@ class CreateAccountPage extends StatelessWidget {
   }
 }
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -683,10 +683,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     userEmail = user?.email;
     pages = [
-      LandingPage(),
-      Quiz(),
-      DashBoard(),
-      MatchList(userEmail: userEmail ?? ''),
+      CupertinoTabView(builder: (context) => LandingPage()),
+      CupertinoTabView(builder: (context) => Quiz()),
+      CupertinoTabView(builder: (context) => DashBoard()),
+      CupertinoTabView(
+          builder: (context) => MatchList(userEmail: userEmail ?? '')),
     ];
   }
 
@@ -698,36 +699,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
         currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        unselectedItemColor: Colors.grey, // Color for unselected icons
-        selectedItemColor: Colors.blue, // Color for the selected icon
+        onTap: updateIndex,
+        activeColor: Colors.blue, // Color for the selected icon
+        inactiveColor: Colors.grey, // Color for unselected icons
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(CupertinoIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(CupertinoIcons.person),
             label: 'Profile',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
+            icon: Icon(CupertinoIcons.news),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: Icon(CupertinoIcons.bell),
             label: 'Notifications',
           ),
         ],
       ),
+      tabBuilder: (BuildContext context, int index) {
+        return pages[index];
+      },
     );
   }
 }
@@ -874,10 +873,8 @@ class _LandingPageState extends State<LandingPage> {
                 top: 257,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to the create account page here
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Quiz()),
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(builder: (context) => Quiz()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -906,7 +903,7 @@ class _LandingPageState extends State<LandingPage> {
                       context,
                       MaterialPageRoute(builder: (context) => Quiz()),
                     );
-                  },
+                  },               
                   style: ElevatedButton.styleFrom(
                     primary: Colors.transparent, // Set to transparent
                     shadowColor: Colors.transparent, // Set to transparent
@@ -937,7 +934,6 @@ class DashBoard extends StatefulWidget { // edit this heavily
 // Dashboard page UI
 class _DashBoardState extends State<DashBoard> {
 
-  // int _currentIndex = 0;
   String matchEmail = 'No Match';
   Future<void> emailResult() async {
     final User? user = _auth.currentUser;
